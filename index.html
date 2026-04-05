@@ -45,28 +45,11 @@
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 820px;
     margin: 0 auto;
     padding: 24px 20px 80px;
     position: relative;
     z-index: 1;
-  }
-
-  /* ── SIDE-BY-SIDE QUIZ LAYOUT ── */
-  .quiz-layout {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    gap: 20px;
-    align-items: start;
-  }
-
-  .quiz-sidebar {
-    position: sticky;
-    top: 20px;
-  }
-
-  .quiz-main {
-    min-width: 0;
   }
 
   /* ── HEADER ── */
@@ -509,8 +492,8 @@
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 0;
+    padding: 20px;
+    margin-bottom: 20px;
   }
   .nav-panel-title {
     font-size: 11px;
@@ -523,50 +506,7 @@
     letter-spacing: 2px;
   }
 
-  .nav-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid var(--border);
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    color: var(--muted);
-  }
-  .legend-dot {
-    width: 10px; height: 10px;
-    border-radius: 3px;
-    flex-shrink: 0;
-  }
-  .legend-dot.current { background: var(--accent); }
-  .legend-dot.correct { background: rgba(0,212,170,0.4); border: 1px solid var(--correct); }
-  .legend-dot.wrong { background: rgba(255,77,109,0.4); border: 1px solid var(--wrong); }
-  .legend-dot.unanswered { background: var(--surface); border: 1px solid var(--border); }
-
-  .sidebar-finish-btn {
-    width: 100%;
-    margin-top: 14px;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,77,109,0.3);
-    background: rgba(255,77,109,0.1);
-    color: var(--wrong);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .sidebar-finish-btn:hover { background: rgba(255,77,109,0.2); }
-
-  @media (max-width: 768px) {
-    .quiz-layout { grid-template-columns: 1fr; }
-    .quiz-sidebar { position: static; }
+  @media (max-width: 600px) {
     .stats-bar { grid-template-columns: repeat(2, 1fr); }
     .quiz-card { padding: 20px; }
     .features { grid-template-columns: 1fr; }
@@ -637,48 +577,34 @@
       </div>
     </div>
 
-    <!-- SIDE-BY-SIDE LAYOUT -->
-    <div class="quiz-layout">
+    <!-- QUESTION NAV PANEL -->
+    <div class="nav-panel">
+      <div class="nav-panel-title">प्रश्न नेविगेशन</div>
+      <div class="q-nav-grid" id="q-nav-grid"></div>
+    </div>
 
-      <!-- SIDEBAR: QUESTION NAV PANEL -->
-      <div class="quiz-sidebar">
-        <div class="nav-panel">
-          <div class="nav-panel-title">प्रश्न नेविगेशन</div>
-          <div class="q-nav-grid" id="q-nav-grid"></div>
-          <div class="nav-legend">
-            <div class="legend-item"><div class="legend-dot current"></div>Current</div>
-            <div class="legend-item"><div class="legend-dot correct"></div>Correct</div>
-            <div class="legend-item"><div class="legend-dot wrong"></div>Wrong</div>
-            <div class="legend-item"><div class="legend-dot unanswered"></div>Pending</div>
-          </div>
-          <button class="sidebar-finish-btn" onclick="confirmFinish()">🏁 क्विज़ समाप्त करें</button>
-        </div>
+    <!-- QUESTION CARD -->
+    <div class="quiz-card" id="quiz-card">
+      <button class="bookmark-btn" id="bookmark-btn" onclick="toggleBookmark()" title="Bookmark">🔖</button>
+      <div class="q-meta">
+        <span class="q-num" id="q-num">Q 01</span>
+        <span class="q-section-tag" id="q-section-tag"></span>
       </div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+      <div class="explanation" id="explanation"></div>
+    </div>
 
-      <!-- MAIN: QUESTION CARD + NAV -->
-      <div class="quiz-main">
+    <!-- NAV ROW -->
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="prevQ()">← पिछला</button>
+      <button class="btn btn-danger" onclick="skipQ()">छोड़ें</button>
+      <button class="btn btn-primary" onclick="nextQ()">अगला →</button>
+    </div>
 
-        <!-- QUESTION CARD -->
-        <div class="quiz-card" id="quiz-card">
-          <button class="bookmark-btn" id="bookmark-btn" onclick="toggleBookmark()" title="Bookmark">🔖</button>
-          <div class="q-meta">
-            <span class="q-num" id="q-num">Q 01</span>
-            <span class="q-section-tag" id="q-section-tag"></span>
-          </div>
-          <div class="q-text" id="q-text"></div>
-          <div class="options" id="options"></div>
-          <div class="explanation" id="explanation"></div>
-        </div>
-
-        <!-- NAV ROW -->
-        <div class="nav-row">
-          <button class="btn btn-secondary" onclick="prevQ()">← पिछला</button>
-          <button class="btn btn-danger" onclick="skipQ()">छोड़ें</button>
-          <button class="btn btn-primary" onclick="nextQ()">अगला →</button>
-        </div>
-
-      </div>
-    </div><!-- end quiz-layout -->
+    <div style="text-align:center;margin-top:24px">
+      <button class="btn btn-danger" onclick="confirmFinish()" style="margin:0 auto">🏁 क्विज़ समाप्त करें</button>
+    </div>
 
   </div>
 
