@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>करंट अफेयर्स क्विज़ — जनवरी 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --border: #2a2a3e;
+    --accent: #f5a623;
+    --accent2: #e84393;
+    --accent3: #00d4aa;
+    --text: #eeeef5;
+    --muted: #7a7a9a;
+    --correct: #00d4aa;
+    --wrong: #ff4d6d;
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(245,166,35,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 80% 80%, rgba(0,212,170,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 60% 40%, rgba(232,67,147,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 24px 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 48px 0 36px;
+    animation: fadeDown 0.6s ease;
+  }
+  .header-eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: clamp(26px, 5vw, 42px);
+    line-height: 1.2;
+    background: linear-gradient(135deg, var(--accent) 0%, #fff 50%, var(--accent3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .header-sub {
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── SECTION FILTER ── */
+  .section-filter {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+  .filter-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 600; }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease 0.15s both;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.5px; }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    border-radius: 4px;
+    transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* ── QUIZ CARD ── */
+  .quiz-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.5s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .quiz-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  }
+
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .q-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    background: rgba(245,166,35,0.1);
+    padding: 4px 10px;
+    border-radius: 50px;
+  }
+  .q-section-tag {
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--surface);
+    padding: 4px 10px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+  }
+
+  .q-text {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: clamp(15px, 2.5vw, 18px);
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+
+  /* ── OPTIONS ── */
+  .options { display: grid; gap: 10px; }
+  .option {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(.4,0,.2,1);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: left;
+    color: var(--text);
+  }
+  .option:hover:not(.disabled) {
+    border-color: var(--accent);
+    background: rgba(245,166,35,0.06);
+    transform: translateX(3px);
+  }
+  .option.disabled { cursor: default; }
+  .option.correct {
+    border-color: var(--correct);
+    background: rgba(0,212,170,0.08);
+    color: var(--correct);
+  }
+  .option.wrong {
+    border-color: var(--wrong);
+    background: rgba(255,77,109,0.08);
+    color: var(--wrong);
+  }
+  .option.selected-wrong {
+    border-color: var(--wrong);
+    background: rgba(255,77,109,0.12);
+    color: var(--wrong);
+  }
+
+  .opt-letter {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .option.correct .opt-letter { background: var(--correct); color: #000; }
+  .option.wrong .opt-letter, .option.selected-wrong .opt-letter { background: var(--wrong); color: #fff; }
+  .option:hover:not(.disabled) .opt-letter { background: var(--accent); color: #000; }
+
+  /* ── EXPLANATION ── */
+  .explanation {
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: rgba(0,212,170,0.06);
+    border: 1px solid rgba(0,212,170,0.2);
+    border-radius: 10px;
+    font-size: 13.5px;
+    color: var(--accent3);
+    display: none;
+    line-height: 1.6;
+    font-family: 'Tiro Devanagari Hindi', serif;
+  }
+  .explanation.show { display: block; animation: fadeUp 0.3s ease; }
+  .explanation strong { display: block; margin-bottom: 4px; font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 1px; }
+
+  /* ── NAV BUTTONS ── */
+  .nav-row {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    flex: 1;
+    justify-content: center;
+  }
+  .btn-primary:hover { background: #ffd166; transform: translateY(-1px); }
+  .btn-secondary {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: rgba(255,77,109,0.15); color: var(--wrong); border: 1px solid rgba(255,77,109,0.3); }
+  .btn-danger:hover { background: rgba(255,77,109,0.25); }
+
+  /* ── RESULT SCREEN ── */
+  .result-screen {
+    display: none;
+    animation: fadeUp 0.6s ease;
+  }
+  .result-screen.show { display: block; }
+
+  .result-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .result-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245,166,35,0.08), transparent 70%);
+  }
+  .result-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 12vw, 100px);
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .result-msg {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 20px;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .result-sub { color: var(--muted); font-size: 14px; }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 32px 0;
+    text-align: center;
+  }
+  .result-stat { padding: 16px; }
+  .result-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 36px; }
+  .result-stat-val.green { color: var(--correct); }
+  .result-stat-val.red { color: var(--wrong); }
+  .result-stat-val.yellow { color: var(--accent); }
+  .result-stat-lbl { font-size: 12px; color: var(--muted); }
+
+  /* ── START SCREEN ── */
+  .start-screen { animation: fadeUp 0.6s ease; }
+  .start-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+  }
+  .start-icon { font-size: 56px; margin-bottom: 16px; }
+  .start-card h2 {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .start-card p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 28px; }
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+    text-align: left;
+  }
+  .feature {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 13px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .feature-icon { font-size: 20px; flex-shrink: 0; }
+  .feature-text { color: var(--muted); line-height: 1.5; }
+  .feature-text strong { display: block; color: var(--text); margin-bottom: 2px; }
+
+  /* ── SECTION BADGE COLORS ── */
+  .tag-0 { color: #f5a623; border-color: rgba(245,166,35,0.3); }
+  .tag-1 { color: #00d4aa; border-color: rgba(0,212,170,0.3); }
+  .tag-2 { color: #e84393; border-color: rgba(232,67,147,0.3); }
+  .tag-3 { color: #7c6af5; border-color: rgba(124,106,245,0.3); }
+  .tag-4 { color: #ff9500; border-color: rgba(255,149,0,0.3); }
+  .tag-5 { color: #30d158; border-color: rgba(48,209,88,0.3); }
+  .tag-6 { color: #64d2ff; border-color: rgba(100,210,255,0.3); }
+  .tag-7 { color: #ff6b6b; border-color: rgba(255,107,107,0.3); }
+
+  /* ── BOOKMARKS ── */
+  .bookmark-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    opacity: 0.4;
+    transition: all 0.2s;
+    z-index: 10;
+  }
+  .bookmark-btn:hover, .bookmark-btn.active { opacity: 1; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  .shake { animation: shake 0.3s ease; }
+
+  /* ── QUIZ AREA ── */
+  #quiz-area { display: none; }
+  #quiz-area.show { display: block; }
+  #start-area { display: block; }
+  #start-area.hidden { display: none; }
+
+  /* ── QUESTION NAV ── */
+  .q-nav-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .q-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .q-dot:hover { border-color: var(--accent); color: var(--accent); }
+  .q-dot.current { border-color: var(--accent); background: var(--accent); color: #000; font-weight: 700; }
+  .q-dot.answered-correct { border-color: var(--correct); background: rgba(0,212,170,0.15); color: var(--correct); }
+  .q-dot.answered-wrong { border-color: var(--wrong); background: rgba(255,77,109,0.15); color: var(--wrong); }
+
+  .nav-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .nav-panel-title {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  @media (max-width: 600px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .quiz-card { padding: 20px; }
+    .features { grid-template-columns: 1fr; }
+    .result-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .result-card { padding: 32px 20px; }
+    .q-nav-grid { gap: 4px; }
+    .q-dot { width: 28px; height: 28px; font-size: 10px; }
+    .section-filter { gap: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">MOCK TEST • JANUARY 2026</div>
+    <h1>करंट अफेयर्स क्विज़</h1>
+    <p class="header-sub">150 Questions • 8 Sections • Rajasthan & National Affairs</p>
+  </div>
+
+  <!-- START SCREEN -->
+  <div id="start-area" class="start-screen">
+    <div class="start-card">
+      <div class="start-icon">🏆</div>
+      <h2>क्विज़ शुरू करें</h2>
+      <p>राजस्थान राज्य योजनाएँ, राष्ट्रीय मामले, रक्षा, खेल, पुरस्कार,<br>अंतर्राष्ट्रीय संबंध, विज्ञान और महत्वपूर्ण दिवस पर आधारित 150 प्रश्न।</p>
+      <div class="features">
+        <div class="feature"><div class="feature-icon">📚</div><div class="feature-text"><strong>8 Sections</strong>All major current affairs topics covered</div></div>
+        <div class="feature"><div class="feature-icon">✅</div><div class="feature-text"><strong>Instant Feedback</strong>See correct answer after each question</div></div>
+        <div class="feature"><div class="feature-icon">🔖</div><div class="feature-text"><strong>Bookmarks</strong>Save questions for later review</div></div>
+        <div class="feature"><div class="feature-icon">📊</div><div class="feature-text"><strong>Score Tracking</strong>Real-time score and progress bar</div></div>
+      </div>
+      <div class="section-filter" style="margin-bottom:24px">
+        <button class="filter-btn active" onclick="selectSection('all',this)">सभी (150)</button>
+        <button class="filter-btn" onclick="selectSection(0,this)">राजस्थान (30)</button>
+        <button class="filter-btn" onclick="selectSection(1,this)">राष्ट्रीय (40)</button>
+        <button class="filter-btn" onclick="selectSection(2,this)">रक्षा (15)</button>
+        <button class="filter-btn" onclick="selectSection(3,this)">खेल (20)</button>
+        <button class="filter-btn" onclick="selectSection(4,this)">पुरस्कार (15)</button>
+        <button class="filter-btn" onclick="selectSection(5,this)">अंतर्राष्ट्रीय (15)</button>
+        <button class="filter-btn" onclick="selectSection(6,this)">विज्ञान (10)</button>
+        <button class="filter-btn" onclick="selectSection(7,this)">दिवस & पुस्तकें (5)</button>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:16px;padding:16px" onclick="startQuiz()">
+        ▶ क्विज़ शुरू करें
+      </button>
+    </div>
+  </div>
+
+  <!-- QUIZ AREA -->
+  <div id="quiz-area">
+
+    <!-- STATS -->
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-value" id="stat-score">0</div><div class="stat-label">Score</div></div>
+      <div class="stat"><div class="stat-value" id="stat-correct" style="color:var(--correct)">0</div><div class="stat-label">Correct ✓</div></div>
+      <div class="stat"><div class="stat-value" id="stat-wrong" style="color:var(--wrong)">0</div><div class="stat-label">Wrong ✗</div></div>
+      <div class="stat"><div class="stat-value" id="stat-rem" style="color:var(--muted)">—</div><div class="stat-label">Remaining</div></div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="progress-label">
+        <span id="progress-text">Question 1</span>
+        <span id="progress-pct">0%</span>
+      </div>
+    </div>
+
+    <!-- QUESTION NAV PANEL -->
+    <div class="nav-panel">
+      <div class="nav-panel-title">प्रश्न नेविगेशन</div>
+      <div class="q-nav-grid" id="q-nav-grid"></div>
+    </div>
+
+    <!-- QUESTION CARD -->
+    <div class="quiz-card" id="quiz-card">
+      <button class="bookmark-btn" id="bookmark-btn" onclick="toggleBookmark()" title="Bookmark">🔖</button>
+      <div class="q-meta">
+        <span class="q-num" id="q-num">Q 01</span>
+        <span class="q-section-tag" id="q-section-tag"></span>
+      </div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+      <div class="explanation" id="explanation"></div>
+    </div>
+
+    <!-- NAV ROW -->
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="prevQ()">← पिछला</button>
+      <button class="btn btn-danger" onclick="skipQ()">छोड़ें</button>
+      <button class="btn btn-primary" onclick="nextQ()">अगला →</button>
+    </div>
+
+    <div style="text-align:center;margin-top:24px">
+      <button class="btn btn-danger" onclick="confirmFinish()" style="margin:0 auto">🏁 क्विज़ समाप्त करें</button>
+    </div>
+
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <div style="position:relative;z-index:1">
+        <div style="font-size:13px;letter-spacing:3px;color:var(--muted);margin-bottom:8px;font-family:'Bebas Neue',sans-serif">आपका स्कोर</div>
+        <div class="result-score" id="result-score-display">0%</div>
+        <div class="result-msg" id="result-msg">शानदार प्रदर्शन!</div>
+        <div class="result-sub" id="result-sub"></div>
+        <div class="result-grid">
+          <div class="result-stat"><div class="result-stat-val green" id="r-correct">0</div><div class="result-stat-lbl">Correct</div></div>
+          <div class="result-stat"><div class="result-stat-val red" id="r-wrong">0</div><div class="result-stat-lbl">Wrong</div></div>
+          <div class="result-stat"><div class="result-stat-val yellow" id="r-skipped">0</div><div class="result-stat-lbl">Skipped</div></div>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="restartQuiz()">🔄 फिर से खेलें</button>
+          <button class="btn btn-secondary" onclick="reviewAnswers()">📋 उत्तर देखें</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SECTIONS = [
+  "राजस्थान योजनाएँ",
+  "PIB - राष्ट्रीय मामले",
+  "रक्षा & सेना",
+  "खेल",
+  "पुरस्कार & सम्मान",
+  "अंतर्राष्ट्रीय संबंध",
+  "विज्ञान & प्रौद्योगिकी",
+  "दिवस & पुस्तकें"
+];
+
+const ALL_QUESTIONS = [
+  // Section 0: Rajasthan (Q1-30)
+  {s:0,q:"राजस्थान रोजगार नीति - 2026 के तहत मार्च 2029 तक कितने रोजगार के अवसर प्रदान करने का लक्ष्य रखा गया है?",o:["10 लाख","12 लाख","15 लाख","20 लाख"],a:2},
+  {s:0,q:"राजस्थान युवा एवं खेल महोत्सव 2026 कहाँ और कब आयोजित किया गया?",o:["जोधपुर, 5-10 जनवरी","जयपुर, 7-12 जनवरी","उदयपुर, 10-15 जनवरी","कोटा, 12-17 जनवरी"],a:1},
+  {s:0,q:"मुख्यमंत्री युवा स्वरोजगार योजना के तहत स्नातक एवं उच्च शैक्षणिक योग्यता वाले आवेदकों को विनिर्माण क्षेत्र के लिए कितने तक का ऋण प्रदान किया जाएगा?",o:["5 लाख","7.5 लाख","10 लाख","12 लाख"],a:2},
+  {s:0,q:"राजस्थान सेमीकंडक्टर पॉलिसी के संबंध में कौन सा कथन सही है? (1) यह प्रदेश की पहली सेमीकंडक्टर पॉलिसी है (2) इसके तहत सात वर्षों तक विद्युत शुल्क से 100% छूट दी जाएगी (3) इसमें पूंजीगत निवेश के लिए 10% ब्याज अनुदान प्रदान किया जाएगा",o:["केवल 1 और 2","केवल 1 और 3","केवल 2 और 3","1, 2 और 3"],a:0},
+  {s:0,q:"जयपुर डिस्कॉम को किस उपलब्धि के लिए राज्य का पहला 'दोषपूर्ण मीटर-मुक्त' वितरण निगम घोषित किया गया?",o:["1 वर्ष में 1 लाख मीटर बदले","2 वर्षों में 2.78 लाख खराब मीटर बदले","3 वर्षों में 3 लाख मीटर बदले","1 वर्ष में 50,000 मीटर बदले"],a:1},
+  {s:0,q:"'राज उन्नति' मंच किस केंद्रीय योजना की तर्ज पर स्थापित किया गया है?",o:["प्रधानमंत्री ग्राम सड़क योजना","PM प्रगति","डिजिटल इंडिया","स्टार्टअप इंडिया"],a:1},
+  {s:0,q:"राजस्थान डेटा सेंटर नीति 2025 के तहत निम्नलिखित में से कौन सा प्रोत्साहन प्रदान नहीं किया गया है?",o:["10 वर्षों के लिए 10-20 करोड़ रुपये का वार्षिक एसेट क्रिएशन इंसेंटिव","5 वर्षों के लिए 10% ब्याज सब्सिडी","ट्रांसमिशन शुल्क पर 100% छूट","100 करोड़ से अधिक निवेश पर 25% अतिरिक्त सनराइज इंसेंटिव"],a:1,exp:"5% ब्याज सब्सिडी है, 10% नहीं।"},
+  {s:0,q:"राजस्थान में i-स्टार्टअप के तहत कितने पंजीकृत स्टार्टअप हैं और कितना निवेश हुआ है?",o:["5,000 स्टार्टअप, ₹500 करोड़","7,200 स्टार्टअप, ₹1,000 करोड़","10,000 स्टार्टअप, ₹2,000 करोड़","8,500 स्टार्टअप, ₹1,500 करोड़"],a:1},
+  {s:0,q:"राजस्थान युवा नीति-2026 के प्रमुख सिद्धांतों में निम्नलिखित में से कौन सा शामिल नहीं है?",o:["मानवाधिकार","भेदभाव-रहितता","एकरूपता","सुलभता"],a:2,exp:"एकरूपता नहीं, विविधता है।"},
+  {s:0,q:"'राजस्थान प्रोहिबिशन ऑफ ट्रांसफर ऑफ इम्पूवेबल प्रॉपर्टीज... बिल, 2026' के तहत अशांत क्षेत्र घोषित करने के बाद अचल संपत्ति हस्तांतरण के लिए क्या प्रावधान किया?",o:["पूर्ण प्रतिबंध","सक्षम प्राधिकारी की पूर्वानुमति अनिवार्य","केवल स्थानीय निवासियों को अनुमति","बिना शर्त हस्तांतरण जारी"],a:1},
+  {s:0,q:"राजस्थान लोक सेवा आयोग सेवा नियम, 1991 में संशोधन के अनुसार, सहायक सचिव एवं निजी सचिव संवर्ग से उप सचिव के पद पर पदोन्नति किस अनुपात में होगी?",o:["5:1","10:1","15:1","20:1"],a:1},
+  {s:0,q:"राजस्थान सिविल सेवा (आचरण) नियम, 1971 में संशोधन के अनुसार, बाल विवाह की परिभाषा के तहत बालक और बालिका की आयु सीमा क्या है?",o:["18 वर्ष से कम पुरुष, 18 वर्ष से कम महिला","21 वर्ष से कम पुरुष, 18 वर्ष से कम महिला","21 वर्ष से कम पुरुष, 21 वर्ष से कम महिला","18 वर्ष से कम पुरुष, 21 वर्ष से कम महिला"],a:1},
+  {s:0,q:"'माई करियर एडवाइजर' ऐप किन कक्षाओं के छात्रों के लिए विकसित किया गया है?",o:["कक्षा 6-10","कक्षा 8-12","कक्षा 9-12","कक्षा 10-12"],a:2},
+  {s:0,q:"एकीकृत क्लस्टर विकास योजना के तहत किस जिले में सोनामुखी प्रसंस्करण क्लस्टर विकसित किया गया है?",o:["बालोतरा","फलोदी","जयपुर","चुरू"],a:1},
+  {s:0,q:"माँ योजना (स्वास्थ्य) के अंतर्गत कितने अस्पताल सूचीबद्ध हैं और कितने परिवार लाभान्वित होते हैं?",o:["20,000 अस्पताल, 1 करोड़ परिवार","25,000 अस्पताल, 1.2 करोड़ परिवार","30,000 अस्पताल, 1.36 करोड़ परिवार","35,000 अस्पताल, 1.5 करोड़ परिवार"],a:2},
+  {s:0,q:"राजस्थान के किस जिले को खाद्य सुरक्षा सूचकांक में शीर्ष स्थान (स्कोर 83.64) प्राप्त हुआ?",o:["जयपुर","झुंझुनूं","उदयपुर","जोधपुर"],a:1},
+  {s:0,q:"राजस्थान युवा नीति-2026 के तहत नोडल एजेंसी किसे बनाया गया है?",o:["राजस्थान युवा बोर्ड","खेल एवं युवा मामलात मंत्रालय","राजस्थान कौशल विकास मिशन","राजस्थान रोजगार निगम"],a:0},
+  {s:0,q:"राजस्थान सरकार ने PM किसान सम्मान निधि के ₹6,000 के अतिरिक्त कितनी सहायता देने की घोषणा की?",o:["₹2,000","₹3,000","₹4,000","₹5,000"],a:1},
+  {s:0,q:"'अपना खाता मोबाइल एप' किस मंत्री द्वारा लॉन्च किया गया?",o:["मुख्यमंत्री भजनलाल शर्मा","राजस्व मंत्री हेमंत मीणा","वित्त मंत्री दिया कुमारी","गृह मंत्री जोगाराम पटेल"],a:1},
+  {s:0,q:"जयपुर जिले के पंच गौरव के संदर्भ में कौन सा युग्म सही सुमेलित नहीं है?",o:["उपज - गेहूं","प्रजाति - लेसुआ","उत्पाद - रत्नाभूषण","खेल - क्रिकेट"],a:3,exp:"खेल - कबड्डी है, क्रिकेट नहीं।"},
+  {s:0,q:"राजस्थान में PM श्री योजना के तहत कुल कितने विद्यालयों को सेंटर ऑफ एक्सीलेंस के रूप में विकसित किया जा रहा है?",o:["500","600","639","700"],a:2},
+  {s:0,q:"राज्य सरकार ने सवाई माधोपुर में अमरूद प्रसंस्करण संयंत्र स्थापित करने के लिए कितनी लागत का प्रावधान किया?",o:["₹100 करोड़","₹150 करोड़","₹200 करोड़","₹250 करोड़"],a:1},
+  {s:0,q:"राजस्थान में PM-KUSUM योजना के तहत मार्च 2026 तक कितने मेगावाट का लक्ष्य रखा गया है?",o:["2,000 मेगावाट","2,500 मेगावाट","3,000 मेगावाट","3,500 मेगावाट"],a:2},
+  {s:0,q:"राजस्थान में गौशालाओं के लिए बड़े पशुओं हेतु प्रति दिन कितना अनुदान दिया जाता है?",o:["₹40 प्रति दिन","₹50 प्रति दिन","₹60 प्रति दिन","₹75 प्रति दिन"],a:1},
+  {s:0,q:"'राज उन्नति' के संबंध में कौन सा कथन सही नहीं है?",o:["इसकी स्थापना PM प्रगति की तर्ज पर की गई है","इसकी प्रथम बैठक 17 जनवरी 2026 को हुई","इसमें 5 परियोजनाओं पर चर्चा हुई","अजमेर-चंदेरिया ब्रॉडगेज दोहरीकरण परियोजना पर चर्चा हुई"],a:2,exp:"7 परियोजनाओं पर चर्चा हुई थी, 5 नहीं।"},
+  {s:0,q:"राजस्थान सरकार ने सेमीकंडक्टर पॉलिसी के तहत स्टाम्प शुल्क एवं भू-रूपांतरण शुल्क में कितने प्रतिशत छूट का प्रावधान किया है?",o:["50%","75%","85%","100%"],a:1},
+  {s:0,q:"एकलव्य मॉडल रेजिडेंशियल स्कूल (EMRS) राजस्थान में कितने संचालित हैं और ये किस बोर्ड से संबद्ध हैं?",o:["25, राजस्थान बोर्ड","31, CBSE","35, ICSE","28, राजस्थान बोर्ड"],a:1},
+  {s:0,q:"राजस्थान सरकार ने प्रेरणा अभियान 2.0 किस उद्देश्य से शुरू किया?",o:["डिजिटल साक्षरता बढ़ाने के लिए","मातृ एवं शिशु पोषण तथा स्वास्थ्य सुदृढ़ करने के लिए","महिला उद्यमिता को बढ़ावा देने के लिए","किसानों को जैविक खेती के लिए प्रेरित करने के लिए"],a:1},
+  {s:0,q:"राजस्थान में 'राजीविका' किस विभाग के अधीन कार्य करती है?",o:["महिला एवं बाल विकास विभाग","ग्रामीण विकास विभाग","सामाजिक न्याय एवं अधिकारिता विभाग","कृषि विभाग"],a:1},
+  {s:0,q:"राजस्थान के किस जिले को सर्वश्रेष्ठ थाने के रूप में सम्मानित किया गया?",o:["जयपुर के जयपुर सिटी थाने को","चुरू जिले के रतननगर पुलिस स्टेशन को","जोधपुर के सरदारपुरा थाने को","कोटा के कोतवाली थाने को"],a:1},
+
+  // Section 1: National Affairs (Q31-70)
+  {s:1,q:"77वें गणतंत्र दिवस समारोह की थीम क्या थी?",o:["आत्मनिर्भर भारत","वंदे मातरम के 150 वर्ष","नया भारत, संकल्प से सिद्धि","स्वतंत्रता का अमृत महोत्सव"],a:1},
+  {s:1,q:"गणतंत्र दिवस 2026 के मुख्य अतिथि कौन थे?",o:["फ्रांस के राष्ट्रपति","यूरोपीय परिषद के अध्यक्ष एंटोनियो कोस्टा और यूरोपीय आयोग की अध्यक्ष उर्सुला वॉन डेर लेयेन","जापान के प्रधानमंत्री","रूस के राष्ट्रपति"],a:1},
+  {s:1,q:"पद्म पुरस्कार 2026 में कितने पुरस्कार प्रदान किए गए?",o:["120","125","131","140"],a:2},
+  {s:1,q:"निम्नलिखित में से किसे पद्म विभूषण 2026 से सम्मानित किया गया?",o:["शिबू सोरेन","धर्मेंद्र सिंह देओल (मरणोपरांत)","विजय अमृतराज","पीयूष पांडे"],a:1},
+  {s:1,q:"भारत का निर्यात तैयारी सूचकांक (EPI) 2024 किस संस्था द्वारा जारी किया गया?",o:["RBI","नीति आयोग","वाणिज्य मंत्रालय","SEBI"],a:1},
+  {s:1,q:"EPI 2024 के अनुसार बड़े राज्यों में प्रथम स्थान पर कौन सा राज्य है?",o:["गुजरात","तमिलनाडु","महाराष्ट्र","कर्नाटक"],a:2},
+  {s:1,q:"SVASTIK वेब पोर्टल का पूर्ण रूप क्या है?",o:["Scientific Validation and Systematic Traditional Indian Knowledge","Scientifically Validated Societal Traditional Knowledge","Systematic Validation of Ancient Scientific Traditional Indian Knowledge","Scientific Verification of Ayurvedic and Siddha Traditional Indian Knowledge"],a:1},
+  {s:1,q:"राष्ट्रमंडल के अध्यक्षों और पीठासीन अधिकारियों का 28वाँ सम्मेलन (CSPOC) कहाँ आयोजित हुआ?",o:["लंदन","नई दिल्ली","जयपुर","मुंबई"],a:1},
+  {s:1,q:"भारत और यूरोपीय संघ के बीच मुक्त व्यापार समझौते (FTA) को क्या नाम दिया गया है?",o:["डील ऑफ द सेंचुरी","मदर ऑफ ऑल डील्स","भारत-यूरोप पार्टनरशिप","स्ट्रैटेजिक ट्रेड एग्रीमेंट"],a:1},
+  {s:1,q:"भारत की पहली बायो-बिटुमेन राष्ट्रीय राजमार्ग का उद्घाटन कहाँ किया गया?",o:["राजस्थान के जयपुर में","महाराष्ट्र के नागपुर जिले में","गुजरात के अहमदाबाद में","उत्तर प्रदेश के लखनऊ में"],a:1},
+  {s:1,q:"निम्नलिखित में से कौन सा भारतीय तटरक्षक बल का सबसे बड़ा पोत है?",o:["INS विक्रांत","समुद्र प्रताप","INS अरिहंत","INS सागरध्वनि"],a:1},
+  {s:1,q:"'वीर गाथा 5.0' कार्यक्रम में कितने छात्रों ने रिकॉर्ड भागीदारी की?",o:["1 करोड़","1.5 करोड़","1.92 करोड़","2.5 करोड़"],a:2},
+  {s:1,q:"79वें BIS स्थापना दिवस पर महिलाओं के लिए शुरू की गई नई योजना का क्या नाम है?",o:["नारी शक्ति","SHINE","महिला सुरक्षा","सखी"],a:1,exp:"SHINE = Standards Help Inform & Nurture Empowered Women"},
+  {s:1,q:"भारत ने 2025 में किस फसल के उत्पादन में चीन को पछाड़ते हुए विश्व में प्रथम स्थान प्राप्त किया?",o:["गेहूं","चावल","मक्का","बाजरा"],a:1},
+  {s:1,q:"DRDO ने हाइपरसोनिक मिसाइल के विकास के लिए कितने मिनट से अधिक का ग्राउंड परीक्षण सफलतापूर्वक किया?",o:["10 मिनट","12 मिनट","15 मिनट","20 मिनट"],a:1},
+  {s:1,q:"किस कंपनी को उपग्रह द्वारा वैश्विक मोबाइल व्यक्तिगत संचार सेवा के लिए अधिकृत एकीकृत लाइसेंस प्रदान नहीं किया गया?",o:["वनवेब इंडिया","जियो सैटेलाइट","एयरटेल सैटेलाइट","स्टारलिंक सैटेलाइट"],a:2},
+  {s:1,q:"नस्ल संरक्षण पुरस्कार 2025 में व्यक्तिगत श्रेणी में प्रथम पुरस्कार किसे मिला?",o:["कुडाला राम दास","जीतुल बुरागोहेन","तिरुपति","रामचंद्रन काहनार"],a:1,exp:"लुइत भैंस के संरक्षण के लिए।"},
+  {s:1,q:"भारत सरकार ने कोकिंग कोल को किस अधिनियम के तहत महत्वपूर्ण एवं रणनीतिक खनिज घोषित किया?",o:["खान अधिनियम, 1952","खान एवं खनिज (विकास एवं विनियमन) अधिनियम, 1957","राष्ट्रीय खनिज नीति, 2019","कोयला विनियमन अधिनियम, 2020"],a:1},
+  {s:1,q:"भारत की अंतरिक्ष अर्थव्यवस्था का वर्तमान आकार और 2033 तक का लक्ष्य क्या है?",o:["$8.4 बिलियन से $44 बिलियन","$10 बिलियन से $50 बिलियन","$12 बिलियन से $60 बिलियन","$15 बिलियन से $75 बिलियन"],a:0},
+  {s:1,q:"सबका बीमा सबकी रक्षा विधेयक, 2025 के तहत बीमा क्षेत्र में FDI सीमा कितनी कर दी गई?",o:["74%","100%","49%","26%"],a:1},
+  {s:1,q:"'परिपूर्ण मेडिक्लेम आयुष बीमा योजना' किसके लिए शुरू की गई?",o:["आम नागरिकों के लिए","CGHS लाभार्थियों के लिए","सरकारी कर्मचारियों के लिए","वरिष्ठ नागरिकों के लिए"],a:1},
+  {s:1,q:"77वें गणतंत्र दिवस परेड में राजस्थान की झांकी का थीम क्या था?",o:["राजस्थान-मरुस्थल का स्वर्ण स्पर्श","राजस्थान-गौरवशाली विरासत","राजस्थान-रंगों का त्योहार","राजस्थान-वीरों की भूमि"],a:0},
+  {s:1,q:"पॉपुलर चॉइस श्रेणी में गणतंत्र दिवस परेड में द्वितीय स्थान किसे मिला?",o:["गुजरात","उत्तर प्रदेश","राजस्थान","महाराष्ट्र"],a:2},
+  {s:1,q:"भारत ने BRICS की अध्यक्षता 2026 में किस थीम के साथ संभाली?",o:["समृद्धि के लिए सहयोग","लचीलापन, नवाचार, सहयोग और स्थिरता के लिए निर्माण","वैश्विक शासन में सुधार","हरित भविष्य की ओर"],a:1},
+  {s:1,q:"किम्बरली प्रक्रिया में भारत कब तीसरी बार अध्यक्षता करेगा?",o:["1 जनवरी 2025 से","1 जनवरी 2026 से","1 जनवरी 2027 से","1 जनवरी 2028 से"],a:1},
+  {s:1,q:"किस देश ने सोमालीलैंड को स्वतंत्र राष्ट्र के रूप में मान्यता देने का दावा किया?",o:["इजराइल","संयुक्त अरब अमीरात","ताइवान","संयुक्त राज्य अमेरिका"],a:0},
+  {s:1,q:"TIE डिजीफेस्ट समिट की मेजबानी करने वाला पहला गैर-मेट्रो शहर कौन बना?",o:["जोधपुर","जयपुर","उदयपुर","कोटा"],a:1},
+  {s:1,q:"IIT में 'जेन-जी थीम' पर आधारित डाकघर कहाँ स्थापित किया गया?",o:["IIT दिल्ली","IIT जोधपुर","IIT कानपुर","IIT मद्रास"],a:1},
+  {s:1,q:"भारत का पहला बाल विवाह मुक्त जिला कौन सा बना?",o:["सूरजपुर, छत्तीसगढ़","बलौदा, छत्तीसगढ़","कोटा, राजस्थान","जयपुर, राजस्थान"],a:1},
+  {s:1,q:"सागर मैत्री पहल के तहत DRDO का कौन सा पोत रवाना हुआ?",o:["INS विक्रांत","INS सागरध्वनि","INS अरिहंत","INS चक्र"],a:1},
+  {s:1,q:"भारत की पहली ओपन-सी समुद्री मछली पालन परियोजना कहाँ शुरू की गई?",o:["गोवा में","अंडमान सागर के नॉर्थ बे, श्रीविजयापुरम में","केरल के कोच्चि में","तमिलनाडु के चेन्नई में"],a:1},
+  {s:1,q:"98वें अकादमी अवॉर्ड्स 2026 के लिए भारत की आधिकारिक प्रविष्टि कौन सी फिल्म है?",o:["लापता लेडीज","होमबाउंड","12वीं फेल","जोराम"],a:1,exp:"निर्देशक - नीरज घायवान"},
+  {s:1,q:"भारत के किस राज्य को 'भारत की अदरक राजधानी' घोषित किया गया?",o:["केरल","मिजोरम","मेघालय","सिक्किम"],a:1},
+  {s:1,q:"'भारतनेट परियोजना' का उद्देश्य कितनी ग्राम पंचायतों को जोड़ना है?",o:["1.5 लाख","2.22 लाख","2.5 लाख","3 लाख"],a:1},
+  {s:1,q:"'संपूर्णता अभियान 2.0' किस संस्था द्वारा शुरू किया गया?",o:["प्रधानमंत्री कार्यालय","नीति आयोग","गृह मंत्रालय","वित्त मंत्रालय"],a:1},
+  {s:1,q:"'सेल-e-BRATION' प्रतियोगिता किस कंपनी द्वारा शुरू की गई?",o:["रिलायंस स्टील","Steel Authority of India Limited (SAIL)","टाटा स्टील","जिंदल स्टील"],a:1},
+
+  // Section 2: Defence (Q71-85)
+  {s:2,q:"भारतीय सेना का 78वां सेना दिवस कहाँ आयोजित किया गया?",o:["नई दिल्ली","जयपुर","लखनऊ","चंडीगढ़"],a:1},
+  {s:2,q:"78वें सेना दिवस की थीम क्या थी?",o:["सेना जनता का सहयोगी","भारतीय सेना-शौर्य और बलिदान","नई ऊंचाइयों की ओर","सशक्त सेना, सुरक्षित भारत"],a:1},
+  {s:2,q:"78वें सेना दिवस पर मरणोपरांत सेना मेडल (गैलेंट्री) से सम्मानित सूबेदार मेजर पवन कुमार को किस अभियान के लिए सम्मानित किया गया?",o:["ऑपरेशन विजय","ऑपरेशन सिंदूर","ऑपरेशन शक्ति","ऑपरेशन सहायता"],a:1},
+  {s:2,q:"भारतीय सेना के पहले कमांडर इन चीफ कौन थे?",o:["जनरल उपेंद्र द्विवेदी","जनरल के.एम. करियप्पा","फील्ड मार्शल के.एम. करियप्पा","जनरल राजेंद्र सिंह"],a:1},
+  {s:2,q:"DRDO ने तीसरी पीढ़ी की MPATGM का सफल उड़ान परीक्षण कहाँ किया?",o:["जोधपुर","अहिल्यानगर (महाराष्ट्र)","हैदराबाद","पुणे"],a:1},
+  {s:2,q:"'ऑपरेशन सिंदूर' किससे संबंधित है?",o:["भारतीय वायु सेना का अभियान","भारतीय नौसेना का अभियान","भारतीय सेना का अभियान","NDRF का अभियान"],a:0},
+  {s:2,q:"भारत का रक्षा उत्पादन वार्षिक आधार पर कितने रुपये तक पहुंच गया है?",o:["₹1 लाख करोड़","₹1.25 लाख करोड़","₹1.51 लाख करोड़","₹2 लाख करोड़"],a:2},
+  {s:2,q:"DRDO की किस प्रयोगशाला ने स्क्रैमजेट कनेक्ट पाइप टेस्ट (SCPT) केंद्र में सफल परीक्षण किया?",o:["DRDL, हैदराबाद","RCI, हैदराबाद","TBRL, चंडीगढ़","HEMRL, पुणे"],a:0,exp:"रक्षा अनुसंधान एवं विकास प्रयोगशाला (DRDL)"},
+  {s:2,q:"'प्रोजेक्ट नमन' के तहत सूरतगढ़ में 100वें नमन सेंटर का वर्चुअल उद्घाटन किसने किया?",o:["प्रधानमंत्री नरेंद्र मोदी","रक्षा मंत्री राजनाथ सिंह","राष्ट्रपति द्रौपदी मुर्मू","थल सेनाध्यक्ष जनरल उपेंद्र द्विवेदी"],a:1},
+  {s:2,q:"भारतीय वायु सेना में दक्षिण पश्चिम वायु कमान का चीफ किसे नियुक्त किया गया?",o:["नागेश कपूर","तेजिंदर सिंह","सीधापल्ली श्रीनिवास","H.C. के मुख्य न्यायाधीश"],a:1},
+  {s:2,q:"भारत ने पिनाका रॉकेट की पहली खेप किस देश को निर्यात की?",o:["वियतनाम","आर्मेनिया","इंडोनेशिया","फिलीपींस"],a:1},
+  {s:2,q:"'वीर गाथा 5.0' किस मंत्रालय की संयुक्त पहल है?",o:["रक्षा मंत्रालय और गृह मंत्रालय","रक्षा मंत्रालय और शिक्षा मंत्रालय","रक्षा मंत्रालय और विदेश मंत्रालय","रक्षा मंत्रालय और युवा मामले मंत्रालय"],a:1},
+  {s:2,q:"भारत के सड़क बुनियादी ढांचे में ऐतिहासिक मील का पत्थर क्या है?",o:["पहला अंडरवाटर टनल बना","बायो-बिटुमेन का व्यावसायिक उत्पादन करने वाला दुनिया का पहला देश बना","देश का सबसे लंबा पुल बना","स्मार्ट हाईवे का उद्घाटन हुआ"],a:1},
+  {s:2,q:"'समुद्र प्रताप' के बारे में कौन से कथन सही हैं? (1) भारत का पहला प्रदूषण नियंत्रण पोत है (2) इसका वजन 4170 टन है (3) पहली बार तटरक्षक पोत पर महिलाओं की नियुक्ति",o:["केवल 1 और 2","केवल 1 और 3","केवल 2 और 3","1, 2 और 3"],a:3},
+  {s:2,q:"DRDO के 68वें स्थापना दिवस पर क्या हुआ?",o:["रक्षा अधिग्रहण बोर्ड ने DRDO प्रणालियों को मंजूरी दी","DRDO ने 26000 करोड़ के अधिग्रहण के लिए 11 अनुबंधों पर हस्ताक्षर किए","दोनों A और B","इनमें से कोई नहीं"],a:2},
+
+  // Section 3: Sports (Q86-105)
+  {s:3,q:"विजय हजारे ट्रॉफी 2025-26 का खिताब किस टीम ने जीता?",o:["सीएण्ट","विदर्भ","मुंबई","राजस्थान"],a:1},
+  {s:3,q:"ऑस्ट्रेलियन ओपन 2026 का पुरुष एकल खिताब किसने जीता?",o:["नोवाक जोकोविच","कालोंस अल्कारेज","डेनिल मेदवेदेव","जैनिक सिनर"],a:1},
+  {s:3,q:"ऑस्ट्रेलियन ओपन 2026 का महिला एकल खिताब किसने जीता?",o:["एलिना रिवाकिना","आर्यना सबालेंका","इगा शिवाँतेक","कोको गॉफ"],a:0},
+  {s:3,q:"एशियन यूथ पैरा गेम्स 2025 में भारत ने कितने पदक जीते?",o:["85","92","102","110"],a:2},
+  {s:3,q:"एशियन यूथ पैरा गेम्स 2025 का शुभंकर क्या था?",o:["शीन-ए-शी","फोक्सी","शीना","जयपुर"],a:1},
+  {s:3,q:"खेलो इंडिया बीच गेम्स 2026 में राजस्थान ने कितने पदक जीते और कौन सा स्थान प्राप्त किया?",o:["5 पदक, 8वाँ स्थान","6 पदक, 10वाँ स्थान","8 पदक, 7वाँ स्थान","4 पदक, 12वाँ स्थान"],a:1,exp:"2 स्वर्ण, 0 रजत, 3 कांस्य — कुल 5 पदक, 10वाँ स्थान"},
+  {s:3,q:"पुरुष हॉकी इंडिया लीग (HIL) 2025-26 का खिताब किस टीम ने जीता?",o:["रांची रॉयल्स","वेदांता कलिंगा लांसर्स","हैदराबाद तूफान","दिल्ली वॉरियर्स"],a:1},
+  {s:3,q:"भारत-न्यूजीलैंड वनडे सीरीज 2025-26 का परिणाम क्या रहा?",o:["भारत ने 3-0 से जीती","न्यूजीलैंड ने 2-1 से जीती","सीरीज 1-1 से बराबर रही","भारत ने 2-1 से जीती"],a:1},
+  {s:3,q:"एशियन यूथ पैरा गेम्स 2025 में राजस्थान के विकास कुमार ने कौन से पदक जीते?",o:["स्वर्ण और रजत","दो स्वर्ण","स्वर्ण और कांस्य","केवल स्वर्ण"],a:0,exp:"भाला फेंक में स्वर्ण, तस्तरी फेंक में रजत।"},
+  {s:3,q:"दीप्ति शर्मा ने T-20 अंतर्राष्ट्रीय क्रिकेट में कौन सा अनोखा रिकॉर्ड बनाया?",o:["सबसे तेज 1000 रन","1000 से अधिक रन और 150 विकेट पूरे करने वाली पहली क्रिकेटर","सबसे अधिक विकेट लेने वाली गेंदबाज","सबसे अधिक अर्धशतक लगाने वाली बल्लेबाज"],a:1},
+  {s:3,q:"गुवाहाटी मास्टर्स बैडमिंटन 2025 में राजस्थान के किस खिलाड़ी ने पहला सुपर 100 खिताब जीता?",o:["मिथुन मंजुनाथ","संस्कार सारस्वत","किरण जॉर्ज","प्रणय हेगड़े"],a:1},
+  {s:3,q:"टाटा मुंबई मैराथन 2026 के पुरुष एलीट वर्ग में विजेता कौन रहा?",o:["लियोनाई लांगाट","तादु अबेट देमे","कार्तिक कुमार","अनीश थापा"],a:1},
+  {s:3,q:"एशियाई घुड़सवारी चैम्पियनशिप 2025 में भारत ने कितने पदक जीते और कौन सा स्थान प्राप्त किया?",o:["3 पदक, चौथा स्थान","5 पदक, तीसरा स्थान","7 पदक, दूसरा स्थान","4 पदक, पाँचवाँ स्थान"],a:1,exp:"1 स्वर्ण, 4 रजत = 5 पदक, तीसरा स्थान"},
+  {s:3,q:"एशियाई घुड़सवारी चैम्पियनशिप 2025 में व्यक्तिगत स्पर्धा में स्वर्ण पदक किसने जीता?",o:["श्रुति वोरा","आशीष लिमये","शशांक सिंह कटारिया","दिव्यकृति सिंह"],a:1},
+  {s:3,q:"92वीं नेशनल बिलियर्ड्स एवं स्नूकर चैम्पियनशिप में स्नूकर सीनियर पुरुष का खिताब किसने जीता?",o:["सौरव कोठारी","पंकज आडवाणी","आतिथ्य मेहता","एस. श्रीकृष्ण"],a:1},
+  {s:3,q:"खेलो इंडिया बीच गेम्स 2026 में राजस्थान की किस स्पर्धा में स्वर्ण पदक मिला?",o:["बीच वॉलीबॉल","कबड्डी (पुरुष और महिला दोनों)","बीच सॉकर","ओपन वाटर स्विमिंग"],a:1},
+  {s:3,q:"भारत-श्रीलंका महिला T-20 सीरीज का परिणाम क्या रहा?",o:["भारत ने 4-1 से जीती","भारत ने 5-0 से जीती","श्रीलंका ने 3-2 से जीती","सीरीज बराबर रही"],a:1},
+  {s:3,q:"महिला हॉकी इंडिया लीग 2025-26 का खिताब किस टीम ने जीता?",o:["श्राची बंगाल टाइगर्स","एसजी पाइपर्स","वेदांता कलिंगा लांसर्स","दिल्ली वेव्स"],a:1},
+  {s:3,q:"एशियन यूथ पैरा गेम्स 2025 में पदक तालिका में प्रथम स्थान किस देश ने प्राप्त किया?",o:["चीन","उज्बेकिस्तान","भारत","जापान"],a:1},
+  {s:3,q:"किस भारतीय ताइक्वांडो खिलाड़ी ने 'पूमसे' श्रेणी में एशिया की नंबर वन रैंकिंग हासिल की?",o:["अलीशा सुबुधिति","रूपा बायोर","लतिका भंडारी","प्रियांशी चौहान"],a:1},
+
+  // Section 4: Awards (Q106-120)
+  {s:4,q:"पद्म श्री 2026 में राजस्थान के किस/किन व्यक्तित्व को सम्मानित किया गया?",o:["स्वामी ब्रह्मदेव जी महाराज","गफरूद्दीन मेवाती","तगा राम भील","उपरोक्त सभी"],a:3},
+  {s:4,q:"वीरता पुरस्कार 2026 में अशोक चक्र किसे प्रदान किया गया?",o:["कैप्टन शुभांश शुक्ला","लेफ्टिनेंट कर्नल सीता अशोक शेल्के","मेजर स्वाति शांता कुमार","सूबेदार मेजर पवन कुमार"],a:0},
+  {s:4,q:"जीवन रक्षा पदक श्रेणी 2025 में सर्वोत्तम जीवन रक्षा पदक पाने वालों में मरणोपरांत कौन सम्मानित हुआ?",o:["सुमित यादव","मनोहर सिंह चौहान","वसीम अहमद गनी","जोसेफ लालनुनामाविया"],a:1},
+  {s:4,q:"सुभाष चंद्र बोस आपदा प्रबंधन पुरस्कार 2026 की संस्थागत श्रेणी में किसे 51 लाख रुपये का पुरस्कार मिला?",o:["केरल राज्य आपदा प्रबंधन प्राधिकरण","सिक्किम राज्य आपदा प्रबंधन प्राधिकरण","उत्तराखंड राज्य आपदा प्रबंधन प्राधिकरण","हिमाचल प्रदेश राज्य आपदा प्रबंधन प्राधिकरण"],a:1},
+  {s:4,q:"PETA इंडिया ने वर्ष 2025 के लिए 'पर्सन ऑफ द ईयर' किसे चुना?",o:["आलिया भट्ट","रवीना टंडन","सोनाली बेंद्रे","विद्या बालन"],a:1},
+  {s:4,q:"डॉ. सी. पलानीवेलु की आत्मकथा 'पलानीवेलु गटूज' के हिंदी संस्करण का विमोचन किसने किया?",o:["राष्ट्रपति द्रौपदी मुर्मू","उपराष्ट्रपति सी.पी. राधाकृष्णन","प्रधानमंत्री नरेंद्र मोदी","गृह मंत्री अमित शाह"],a:1},
+  {s:4,q:"NDTV इंडियन ऑफ द ईयर 2025 में 'ट्रांसफॉर्मेशनल लीडर ऑफ द ईयर' पुरस्कार किसे मिला?",o:["जय शाह","नरेंद्र मोदी","अमित शाह","राजनाथ सिंह"],a:0},
+  {s:4,q:"किंग चार्ल्स तृतीय की न्यू ईयर ऑनर्स लिस्ट 2025 में 'डेमहुड' से किसे सम्मानित किया गया?",o:["मीरा स्याल","प्रो. श्रीनिवास कुलकर्णी","आलिया भट्ट","सुनीता विलियम्स"],a:0},
+  {s:4,q:"गोल्डन ग्लोब अवॉर्ड्स 2026 में बेस्ट मोशन पिक्चर (ड्रामा) कौन सी फिल्म रही?",o:["वन बैटल आफ्टर अनदर","हैमनेट","द सीक्रेट एजेंट","मार्टी सुप्रीम"],a:1},
+  {s:4,q:"रक्षा मंत्री उत्कृष्टता पुरस्कार 2025 किस छावनी परिषद को मिला?",o:["जयपुर छावनी परिषद","नसीराबाद छावनी परिषद","कोटा छावनी परिषद","अजमेर छावनी परिषद"],a:1},
+  {s:4,q:"अंतर्राष्ट्रीय महिला साहस पुरस्कार 2025 राजस्थान की किस महिला को मिला?",o:["डॉ. कृति भारती","प्रो. नीलिमा गुप्ता","मीनू यादव","स्नेहलता जाट"],a:0},
+  {s:4,q:"इफको साहित्य सम्मान 2025 किसे प्रदान किया गया?",o:["अंकिता जैन","मैत्रेयी पुष्पा","निर्मल वर्मा","कन्हैयालाल भ्रमर"],a:1},
+  {s:4,q:"'सोसाइटी फॉर मैटेरियल्स केमिस्ट्री - मैटर अवार्ड 2025' किसे मिला?",o:["डॉ. कृति भारती","प्रो. नीलिमा गुप्ता","मीनू यादव","निर्मल वर्मा"],a:1},
+  {s:4,q:"साइनकाइड अवार्ड फॉर एनिमल वेलफेयर राजस्थान के किस वन्यजीव फिल्मकार को मिला?",o:["निर्मल वर्मा","कन्हैयालाल भ्रमर","संग्रामसिंह सोड़ा","अरुण कुमार हसीजा"],a:0},
+  {s:4,q:"लंदन की रॉयल एस्ट्रोनॉमिकल सोसायटी ने गोल्ड मेडल से किस भारतीय मूल के खगोल वैज्ञानिक को सम्मानित किया?",o:["प्रो. श्रीनिवास कुलकर्णी","डॉ. टेसी थॉमस","वी. कामाकोटी","डॉ. जितेंद्र सिंह"],a:0},
+
+  // Section 5: International (Q121-135)
+  {s:5,q:"BBNJ (राष्ट्रीय क्षेत्राधिकार से परे जैव विविधता) समझौता कब लागू हुआ?",o:["1 जनवरी 2026","17 जनवरी 2026","25 जनवरी 2026","31 जनवरी 2026"],a:1},
+  {s:5,q:"BBNJ समझौते को प्रभावी होने के लिए न्यूनतम कितने देशों के अनुसमर्थन की आवश्यकता थी?",o:["50","60","75","100"],a:1},
+  {s:5,q:"किम्बरली प्रक्रिया का उद्देश्य क्या है?",o:["हीरे के व्यापार को विनियमित करना","कच्चे हीरों के अवैध व्यापार को रोकना","हीरे के खनन को बढ़ावा देना","हीरे की कीमतों को नियंत्रित करना"],a:1},
+  {s:5,q:"स्पेन ने 21 जनवरी 2026 को भारत के नेतृत्व वाली किस पहल में शामिल होने की घोषणा की?",o:["SAGAR","इंडो-पैसिफिक ओशन्स इनिशिएटिव (IPOI)","आसियान-भारत समुद्री सहयोग","हिंद-प्रशांत क्षेत्रीय सहयोग"],a:1},
+  {s:5,q:"विश्व आर्थिक मंच (WEF) का 56वाँ वार्षिक सम्मेलन कहाँ आयोजित हुआ?",o:["दावोस, स्विट्जरलैंड","जिनेवा, स्विट्जरलैंड","ज्यूरिख, स्विट्जरलैंड","बर्न, स्विट्जरलैंड"],a:0},
+  {s:5,q:"WEF के 56वें वार्षिक सम्मेलन का विषय क्या था?",o:["Building Trust","A Spirit of Dialogue","Global Cooperation","Sustainable Future"],a:1},
+  {s:5,q:"गाजा के लिए 'बोर्ड ऑफ पीस' किस UN सुरक्षा परिषद संकल्प के तहत स्थापित किया गया?",o:["संकल्प 2728","संकल्प 2803","संकल्प 2900","संकल्प 3000"],a:1},
+  {s:5,q:"भारत ने BBNJ समझौते पर हस्ताक्षर किए हैं लेकिन अभी तक अनुसमर्थन नहीं किया है — यह कथन:",o:["सही है लेकिन (R) गलत है","गलत है लेकिन (R) सही है","(A) और (R) दोनों सही हैं","(A) और (R) दोनों गलत हैं"],a:2},
+  {s:5,q:"संयुक्त राष्ट्र पर्यावरण सभा (UNEA-7) का आयोजन कहाँ हुआ?",o:["जिनेवा","नैरोबी","पेरिस","दोहा"],a:1},
+  {s:5,q:"UNEA-7 की थीम क्या थी?",o:["एक स्वस्थ ग्रह के लिए समाधान","एक लचीले ग्रह के लिए स्थायी समाधानों को आगे बढ़ाना","जलवायु परिवर्तन से निपटना","हरित भविष्य के लिए कार्रवाई"],a:1},
+  {s:5,q:"भारत-फ्रांस सामरिक वार्ता के 38वें संस्करण की सह-अध्यक्षता किसने की?",o:["अजीत डोभाल और इमैनुएल बोन्न","नरेंद्र मोदी और इमैनुएल मैक्रों","एस. जयशंकर और कैथरीन कोलोना","राजनाथ सिंह और सेबेस्टियन लेकोर्नु"],a:0},
+  {s:5,q:"यूरोपीय संघ भारत का कौन सा FTA भागीदार बना?",o:["20वाँ","21वाँ","22वाँ","23वाँ"],a:2},
+  {s:5,q:"भारत और यूरोपीय संघ के बीच 2024-25 में वस्तुओं में द्विपक्षीय व्यापार कितना था?",o:["10.5 लाख करोड़ रुपये","11.5 लाख करोड़ रुपये","12.5 लाख करोड़ रुपये","13.5 लाख करोड़ रुपये"],a:1},
+  {s:5,q:"सऊदी अरब की राजधानी रियाद का मेट्रो नेटवर्क कितने किलोमीटर का है?",o:["150 किमी","176 किमी","200 किमी","250 किमी"],a:1},
+  {s:5,q:"रियाद मेट्रो नेटवर्क में कितने स्टेशन शामिल हैं?",o:["70","75","80","85"],a:3},
+
+  // Section 6: Science (Q136-145)
+  {s:6,q:"PSLV-C62 मिशन विफल होने का कारण क्या था?",o:["प्रक्षेपण यान में विस्फोट","तीसरे चरण में 'रोल-रेट डिस्टर्बेंस'","उपग्रह का प्रक्षेपण पथ से भटकना","ईंधन रिसाव"],a:1},
+  {s:6,q:"PSLV-C62 मिशन के तहत किस DRDO उपग्रह को स्थापित किया जाना था?",o:["रिसैट-1","EOS-N1 (अन्वेषा)","कार्टोसैट-3","जीसैट-30"],a:1},
+  {s:6,q:"भारत का तीसरा स्पेसपोर्ट कहाँ स्थापित किया जाएगा?",o:["कुलशेखरपट्टनम, तमिलनाडु","होप आइलैंड, आंध्र प्रदेश","थूथुकुडी, तमिलनाडु","विशाखापत्तनम, आंध्र प्रदेश"],a:1},
+  {s:6,q:"भारत की पहली लार्ज स्केल बैटरी ग्रेड लिथियम रिफाइनरी कहाँ स्थापित की जाएगी?",o:["बेंगलुरु, कर्नाटक","हैदराबाद, तेलंगाना","चेन्नई, तमिलनाडु","पुणे, महाराष्ट्र"],a:1},
+  {s:6,q:"भारत की पहली लार्ज स्केल बैटरी ग्रेड लिथियम रिफाइनरी की वार्षिक क्षमता कितनी होगी?",o:["20,000 टन","25,000 टन","30,000 टन","35,000 टन"],a:2},
+  {s:6,q:"'मधुनेत्र AI' उपकरण किस रोग की स्क्रीनिंग के लिए विकसित किया गया है?",o:["हृदय रोग","डायबिटिक रेटिनोपैथी","कैंसर","क्षय रोग"],a:1},
+  {s:6,q:"जर्मन एयरोस्पेस इंजीनियर माइकला बेंथॉस ने कौन सा ऐतिहासिक कार्य किया?",o:["सबसे युवा अंतरिक्ष यात्री बनीं","व्हीलचेयर का उपयोग करने वाली दुनिया की पहली दिव्यांग व्यक्ति बनीं जिन्होंने अंतरिक्ष में उड़ान भरी","सबसे लंबा स्पेसवॉक किया","अंतरिक्ष में सबसे अधिक दिन बिताने वाली महिला बनीं"],a:1},
+  {s:6,q:"CSIR-NPL, नई दिल्ली में कौन सी दो नई सुविधाएँ शुरू की गईं?",o:["राष्ट्रीय पर्यावरण मानक प्रयोगशाला और राष्ट्रीय प्राथमिक मानक सुविधा केंद्र","स्मार्ट सिटी लैब और AI रिसर्च सेंटर","क्वांटम कंप्यूटिंग लैब और साइबर सुरक्षा केंद्र","बायो-टेक्नोलॉजी लैब और क्लाइमेट रिसर्च सेंटर"],a:0},
+  {s:6,q:"सुपरकैपेसिटर के लिए किस प्रकार के इलेक्ट्रोड ने 3.4V का वोल्टेज हासिल किया?",o:["ग्राफीन ऑक्साइड इलेक्ट्रोड","छिद्रपूर्ण ग्राफीन कार्बन नैनोकम्पोजिट (PGCN) इलेक्ट्रोड","निकल-कोबाल्ट ऑक्साइड नैनोवायर इलेक्ट्रोड","सिलिकॉन नैनोवायर इलेक्ट्रोड"],a:1},
+  {s:6,q:"NFAP-2025 के तहत कितने kHz से लेकर कितने GHz तक की आवृत्ति सीमा में रेडियो स्पेक्ट्रम का आवंटन किया जाएगा?",o:["1 kHz से 1000 GHz","5 kHz से 2000 GHz","8.3 kHz से 3000 GHz","10 kHz से 5000 GHz"],a:2},
+
+  // Section 7: Important Days & Books (Q146-150)
+  {s:7,q:"निम्नलिखित में से कौन सा दिवस 25 जनवरी को मनाया जाता है? (1) राष्ट्रीय मतदाता दिवस (2) राष्ट्रीय पर्यटन दिवस (3) राष्ट्रीय युवा दिवस",o:["केवल 1 और 2","केवल 1 और 3","केवल 2 और 3","1, 2 और 3"],a:0,exp:"राष्ट्रीय युवा दिवस 12 जनवरी को मनाया जाता है।"},
+  {s:7,q:"विश्व हिन्दी दिवस 2026 की थीम क्या थी?",o:["हिंदी - विश्व की भाषा","हिंदी : पारंपरिक ज्ञान से कृत्रिम बुद्धिमत्ता तक","हिंदी - संपर्क की भाषा","हिंदी - डिजिटल युग में"],a:1},
+  {s:7,q:"पुस्तक 'द घोस्ट्स ऑफ इंडियन स्मॉल टाउन्स: ए जर्नी थ्रू टाइम' के लेखक कौन हैं?",o:["अवनी दोषी","रस्किन बॉन्ड","अखिलेश उपाध्याय","बृजमोहन द्विवेदी"],a:1},
+  {s:7,q:"'महामना वांग्मय' पुस्तक का विमोचन किसने किया?",o:["राष्ट्रपति द्रौपदी मुर्मू","उपराष्ट्रपति सी.पी. राधाकृष्णन","प्रधानमंत्री नरेंद्र मोदी","गृह मंत्री अमित शाह"],a:1},
+  {s:7,q:"राष्ट्रीय मतदाता दिवस 2026 का विषय और टैगलाइन क्या था?",o:["विषय: 'मेरा भारत, मेरा वोट', टैगलाइन: 'भारतीय लोकतंत्र के केंद्र में नागरिक'","विषय: 'मतदाता जागरूकता', टैगलाइन: 'लोकतंत्र की मजबूत नींव'","विषय: 'हर वोट कीमती', टैगलाइन: 'लोकतंत्र का पर्व'","विषय: 'युवा मतदाता', टैगलाइन: 'भारत का भविष्य'"],a:0}
+];
+
+// State
+let questions = [];
+let currentIdx = 0;
+let answered = {}; // idx -> {selected, correct}
+let bookmarks = new Set();
+let selectedSection = 'all';
+let quizStarted = false;
+
+function selectSection(sec, btn) {
+  selectedSection = sec;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function startQuiz() {
+  if (selectedSection === 'all') {
+    questions = [...ALL_QUESTIONS];
+  } else {
+    questions = ALL_QUESTIONS.filter(q => q.s === selectedSection);
+  }
+  // Shuffle
+  for (let i = questions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questions[i], questions[j]] = [questions[j], questions[i]];
+  }
+  currentIdx = 0;
+  answered = {};
+  bookmarks = new Set();
+  document.getElementById('start-area').classList.add('hidden');
+  document.getElementById('quiz-area').classList.add('show');
+  buildNavGrid();
+  renderQuestion();
+}
+
+function buildNavGrid() {
+  const grid = document.getElementById('q-nav-grid');
+  grid.innerHTML = '';
+  questions.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'q-dot';
+    d.textContent = i + 1;
+    d.id = `qdot-${i}`;
+    d.onclick = () => { currentIdx = i; renderQuestion(); };
+    grid.appendChild(d);
+  });
+}
+
+function updateNavGrid() {
+  questions.forEach((_, i) => {
+    const d = document.getElementById(`qdot-${i}`);
+    if (!d) return;
+    d.className = 'q-dot';
+    if (i === currentIdx) d.classList.add('current');
+    else if (answered[i] !== undefined) {
+      d.classList.add(answered[i].correct ? 'answered-correct' : 'answered-wrong');
+    }
+  });
+}
+
+function renderQuestion() {
+  const q = questions[currentIdx];
+  const total = questions.length;
+  const done = Object.keys(answered).length;
+
+  // Stats
+  let correct = 0, wrong = 0;
+  Object.values(answered).forEach(r => r.correct ? correct++ : wrong++);
+  document.getElementById('stat-score').textContent = correct;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('stat-rem').textContent = total - done;
+
+  // Progress
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `Question ${currentIdx + 1} of ${total}`;
+  document.getElementById('progress-pct').textContent = pct + '%';
+
+  // Q meta
+  document.getElementById('q-num').textContent = `Q ${String(currentIdx + 1).padStart(2, '0')}`;
+  const tag = document.getElementById('q-section-tag');
+  tag.textContent = SECTIONS[q.s];
+  tag.className = `q-section-tag tag-${q.s}`;
+
+  // Question text
+  document.getElementById('q-text').textContent = q.q;
+
+  // Bookmark
+  document.getElementById('bookmark-btn').classList.toggle('active', bookmarks.has(currentIdx));
+
+  // Options
+  const optContainer = document.getElementById('options');
+  optContainer.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const isAnswered = answered[currentIdx] !== undefined;
+
+  q.o.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    if (isAnswered) {
+      btn.classList.add('disabled');
+      if (i === q.a) btn.classList.add('correct');
+      else if (i === answered[currentIdx].selected) btn.classList.add('selected-wrong');
+    }
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${opt}</span>`;
+    if (!isAnswered) btn.onclick = () => selectAnswer(i);
+    optContainer.appendChild(btn);
+  });
+
+  // Explanation
+  const exp = document.getElementById('explanation');
+  if (isAnswered && q.exp) {
+    exp.innerHTML = `<strong>💡 व्याख्या</strong>${q.exp}`;
+    exp.classList.add('show');
+  } else if (isAnswered) {
+    exp.innerHTML = `<strong>✅ सही उत्तर</strong>${q.o[q.a]}`;
+    exp.classList.add('show');
+  } else {
+    exp.classList.remove('show');
+  }
+
+  updateNavGrid();
+
+  // Animate card
+  const card = document.getElementById('quiz-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'fadeUp 0.4s ease';
+}
+
+function selectAnswer(selected) {
+  const q = questions[currentIdx];
+  const isCorrect = selected === q.a;
+  answered[currentIdx] = { selected, correct: isCorrect };
+  if (!isCorrect) {
+    document.getElementById('quiz-card').classList.add('shake');
+    setTimeout(() => document.getElementById('quiz-card').classList.remove('shake'), 300);
+  }
+  renderQuestion();
+}
+
+function skipQ() {
+  if (currentIdx < questions.length - 1) { currentIdx++; renderQuestion(); }
+}
+
+function nextQ() {
+  if (currentIdx < questions.length - 1) { currentIdx++; renderQuestion(); }
+  else { showResult(); }
+}
+
+function prevQ() {
+  if (currentIdx > 0) { currentIdx--; renderQuestion(); }
+}
+
+function toggleBookmark() {
+  if (bookmarks.has(currentIdx)) bookmarks.delete(currentIdx);
+  else bookmarks.add(currentIdx);
+  document.getElementById('bookmark-btn').classList.toggle('active', bookmarks.has(currentIdx));
+}
+
+function confirmFinish() {
+  const unanswered = questions.length - Object.keys(answered).length;
+  if (unanswered > 0) {
+    if (!confirm(`अभी भी ${unanswered} प्रश्न अनुत्तरित हैं। क्या आप क्विज़ समाप्त करना चाहते हैं?`)) return;
+  }
+  showResult();
+}
+
+function showResult() {
+  let correct = 0, wrong = 0;
+  Object.values(answered).forEach(r => r.correct ? correct++ : wrong++);
+  const skipped = questions.length - correct - wrong;
+  const pct = Math.round((correct / questions.length) * 100);
+
+  document.getElementById('quiz-area').classList.remove('show');
+  const rs = document.getElementById('result-screen');
+  rs.classList.add('show');
+
+  document.getElementById('result-score-display').textContent = pct + '%';
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-skipped').textContent = skipped;
+
+  let msg, sub;
+  if (pct >= 90) { msg = "अद्भुत प्रदर्शन! 🎉"; sub = "आप एक विशेषज्ञ हैं!"; }
+  else if (pct >= 75) { msg = "शानदार प्रयास! 👏"; sub = "बहुत अच्छा किया!"; }
+  else if (pct >= 60) { msg = "अच्छा प्रदर्शन! 📚"; sub = "थोड़ी और मेहनत करें।"; }
+  else if (pct >= 40) { msg = "ठीक-ठाक प्रयास 📝"; sub = "अभी और पढ़ाई की जरूरत है।"; }
+  else { msg = "हिम्मत रखें! 💪"; sub = "अभ्यास से सब हो जाता है।"; }
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('result-sub').textContent = `${correct} / ${questions.length} सही • ${sub}`;
+}
+
+function restartQuiz() {
+  document.getElementById('result-screen').classList.remove('show');
+  document.getElementById('start-area').classList.remove('hidden');
+  document.getElementById('quiz-area').classList.remove('show');
+  answered = {};
+  bookmarks = new Set();
+}
+
+function reviewAnswers() {
+  document.getElementById('result-screen').classList.remove('show');
+  document.getElementById('quiz-area').classList.add('show');
+  currentIdx = 0;
+  renderQuestion();
+}
+</script>
+</body>
+</html>
